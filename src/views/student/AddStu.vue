@@ -182,11 +182,10 @@ methods:{
         this.$refs[formName].validate((valid) => {
           if (valid) {
                 const data = this.form
-                debugger
                 this.axios.post('/Student',data).then((response) => {
                     response
                     this.$message({
-                        message: '学生添加成功',
+                        message: '学生信息添加成功',
                         type: 'success'
                     });
                     that.$emit("closeAddDialog");

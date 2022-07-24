@@ -45,7 +45,7 @@
           <el-submenu index="/InfoManagement">
             <template #title><i class="el-icon-menu menu-icon"></i><span>系统管理</span></template>
             <el-menu-item index="/SearchUser">用户信息管理</el-menu-item>
-            <el-menu-item index="/SearchTearcher">教师信息管理</el-menu-item>
+            <el-menu-item index="/SearchTeach">教师信息管理</el-menu-item>
             <el-menu-item index="/SearchStu">学生信息管理</el-menu-item>
           </el-submenu>
 

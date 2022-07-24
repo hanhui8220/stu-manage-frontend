@@ -92,7 +92,7 @@
 
 <script>
 export default {
-  name:"AddStu",
+  name:"DetailStu",
   components:{},
   props:{
     readOnly:{
@@ -194,7 +194,7 @@ methods:{
                 this.axios.put('/Student/'+this.id,data).then((response) => {
                     response
                     this.$message({
-                        message: '学生修改成功',
+                        message: '保存',
                         type: 'success'
                     });
                     that.$emit("closeAddDialog");
@@ -215,7 +215,7 @@ methods:{
          this.axios.get('/Student/'+this.id,{}).then((response) => {
                     response
                 this.form = response.data
-                
+                this.form.status = response.data.status + '';
         })
       }
 
