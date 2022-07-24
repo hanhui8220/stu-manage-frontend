@@ -78,7 +78,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.axios.get('/user/login',{
+          this.axios.get('/User/login',{
             params:{
               usercode: this.ruleForm.usercode,
               password: this.ruleForm.password,

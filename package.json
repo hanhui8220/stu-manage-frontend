@@ -1,5 +1,5 @@
 {
-  "name": "stu-ve",
+  "name": "stu-manage",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -25,6 +25,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^7.0.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -40,7 +41,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-debugger": "off",  
+      "no-debugger": "off",
       "no-console": "off"
     }
   },

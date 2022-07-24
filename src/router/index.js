@@ -2,7 +2,7 @@ import { createWebHashHistory, createRouter } from 'vue-router';
 import Login from "@/layouts/Login";
 import Main from "@/layouts/Main";
 import InfoManagement from "@/views/InfoManagement";
-import DataStatistics from "@/views/DataStatistics";
+import SearchUser from "@/views/user/SearchUser";
 
 const history = createWebHashHistory();
 const router = createRouter({
@@ -22,7 +22,8 @@ const router = createRouter({
             children: [
                 // 会被渲染在 Main 的 <router-view> 中
                 { path: '/InfoManagement', component: InfoManagement },
-                { path: '/DataStatistics', component: DataStatistics },
+                { path: '/SearchUser', component: SearchUser },
+                
             ]
         }
     ]

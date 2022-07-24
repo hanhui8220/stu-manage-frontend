@@ -40,12 +40,18 @@
                  active-text-color="#303133"
                  @open="handleOpen"
                  @close="handleClose">
-          <el-menu-item index="/InfoManagement">
-            <template #title><i class="el-icon-menu menu-icon"></i><span>信息管理</span></template>
-          </el-menu-item>
-          <el-menu-item index="/DataStatistics">
-            <template #title><i class="el-icon-s-data menu-icon"></i><span>数据统计</span></template>
-          </el-menu-item>
+
+
+          <el-submenu index="/InfoManagement">
+            <template #title><i class="el-icon-menu menu-icon"></i><span>系统管理</span></template>
+            <el-menu-item index="/SearchUser">用户管理</el-menu-item>
+          </el-submenu>
+
+
+          
+
+
+
         </el-menu>
       </el-aside>
       <el-main class="el-main">
@@ -97,7 +103,7 @@ export default {
       console.log(key, keyPath);
     },
     userLogout() {
-      this.axios.get('/user/logout').then((response) => {
+      this.axios.get('/User/logout').then((response) => {
            console.log(response.data);
            this.$router.push('/');
       }).catch((error) => {

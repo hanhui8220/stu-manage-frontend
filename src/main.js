@@ -7,6 +7,7 @@ import App from './App.vue';
 import router from "@/router/index";
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import { ElMessage } from 'element-plus';
 
 const app = createApp(App)
 app.use(ElementPlus,{locale})
@@ -28,5 +29,16 @@ router.beforeEach((to, from, next) => {
         }
     } else {
         next();
+    }
+});
+
+// 全局异常处理
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    if (error.response) {
+        ElMessage.error(error.response.data.msg);
+    } else {
+        console.log('Error', error.message);
     }
 });
