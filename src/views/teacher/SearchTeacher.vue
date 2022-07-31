@@ -222,7 +222,6 @@ export default {
         },
         handleClose(done) {
             done();
-
         },
         closeAddDialog(){
             this.dialogVisible = false;
