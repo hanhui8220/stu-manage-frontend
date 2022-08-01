@@ -6,7 +6,8 @@ import SearchUser from "@/views/user/SearchUser";
 import SearchStu from '@/views/student/SearchStu'
 import SearchTeacher from '@/views/teacher/SearchTeacher'
 import SearchClass from '@/views/class/SearchClass'
-import ChooseClass from '@/views/class/ChooseClass'
+import SearchCourse from '@/views/course/SearchCourse'
+import SearchMajor from '@/views/major/SearchMajor'
 
 const history = createWebHashHistory();
 const router = createRouter({
@@ -38,8 +39,18 @@ const router = createRouter({
                 requireAuth: true // 进入页面前判断是否需要登陆
             },
             children: [
-                { path: '/SearchClass', component: SearchClass },
-                { path: '/ChooseClass', component: ChooseClass }
+                { path: '/SearchClass', component: SearchClass }
+            ]
+        },
+        {
+            path: '/CourseManagement',
+            component: Main,
+            meta: {
+                requireAuth: true // 进入页面前判断是否需要登陆
+            },
+            children: [
+                { path: '/SearchCourse', component: SearchCourse },
+                { path: '/SearchMajor', component:SearchMajor}
             ]
         }
     ]

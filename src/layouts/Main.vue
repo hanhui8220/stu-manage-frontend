@@ -52,10 +52,13 @@
           <el-submenu index="/ClassManagement">
             <template #title><i class="el-icon-menu menu-icon"></i><span>班级管理</span></template>
             <el-menu-item index="/SearchClass">班级信息管理</el-menu-item>
-            <el-menu-item index="/ChooseClass">学生调班</el-menu-item>
           </el-submenu>
           
-
+          <el-submenu index="/CourseManagement">
+            <template #title><i class="el-icon-menu menu-icon"></i><span>课程及专业管理</span></template>
+            <el-menu-item index="/SearchCourse">课程管理</el-menu-item>
+            <el-menu-item index="/SearchMajor">专业管理</el-menu-item>
+          </el-submenu>
 
 
         </el-menu>

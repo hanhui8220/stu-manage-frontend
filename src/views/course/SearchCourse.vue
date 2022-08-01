@@ -1,57 +1,51 @@
 <template>
-  <div>
-        <!-- 搜索区 -->
+  <div class="wrapper">
+
+    <!-- 搜索区 -->
          <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="班级编号">
-                <el-input v-model="formInline.classNumber" placeholder="班级编号"></el-input>
+            <el-form-item label="课程编号">
+                <el-input v-model="formInline.courseNumber" placeholder="课程编号"></el-input>
             </el-form-item>
-            <el-form-item label="班级名称">
-                <el-input v-model="formInline.className" placeholder="班级名称"></el-input>
+            <el-form-item label="课程名称">
+                <el-input v-model="formInline.courseName" placeholder="课程名称"></el-input>
             </el-form-item>
 
             <el-form-item>
                 <el-button type="primary" @click="queryClick" icon="el-icon-search">查询</el-button>
             </el-form-item>
-        </el-form>   
+        </el-form>  
 
         <el-row>
             <el-button type="primary" icon="el-icon-edit" @click="dialogVisible = true">新增</el-button>
-            <el-button type="primary" icon="el-icon-edit" @click="chooseClass">学生调班</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="selectCourse">选课</el-button>
         </el-row>
 
-         <!-- 数据区 -->
+
+ <!-- 数据区 -->
         <el-table
             @selection-change="selectionChange"
-            ref = "classGrid"
             :data="tableData"
             stripe
             style="width: 100%">
 
-            <el-table-column type="selection" width="55" />
-
-            <el-table-column
-            v-if="showColumn.classId"
-            prop="classId"
+        <el-table-column type="selection" width="55" />
+        
+         <el-table-column
+            v-if="showColumn.courseId"
+            prop="courseId"
             label="主键ID"
             width="180">
             </el-table-column>
 
             <el-table-column
-            prop="classNumber"
-            label="班级编号"
+            prop="courseNumber"
+            label="课程编号"
             width="180">
             </el-table-column>
 
             <el-table-column
-            prop="className"
-            label="班级名称"
-            width="180">
-            </el-table-column>
-
-
-            <el-table-column
-            prop="teacher.teachName"
-            label="班主任/辅导员"
+            prop="courseName"
+            label="课程名称"
             width="180">
             </el-table-column>
 
@@ -71,8 +65,7 @@
 
         </el-table>
 
-
-         <!-- 分页条 -->
+                 <!-- 分页条 -->
     <el-pagination
         layout="prev, pager, next"
         @size-change="handleSizeChange"
@@ -80,65 +73,53 @@
         :current-page="page.page"
         :page-size="page.pageSize"
         :total="page.total"
-        hide-on-single-page="true"
         >
     </el-pagination>
 
 
-    <el-dialog
-            title="新增班级"
+        <el-dialog
+            title="新增课程"
             v-model="dialogVisible"
             :before-close="handleClose">
             <div class="el-dialog-div">
-                <AddClass @closeAddDialog="closeAddDialog"></AddClass>
+                <AddCourse @closeAddDialog="closeAddDialog"></AddCourse>
             </div>
 
             
         </el-dialog>
 
         <el-dialog
-            title="查看班级"
+            title="查看课程"
             v-model="dialogViewVisible"> 
             <div class="el-dialog-div">
-                <DetailClass :id="id" :readOnly=true @closeAddDialog="closeAddDialog"></DetailClass>
+                <DetailCourse :id="id" :readOnly=true @closeAddDialog="closeAddDialog"></DetailCourse>
             </div> 
         </el-dialog>
 
 
         <el-dialog
-            title="修改班级"
+            title="修改课程"
             v-model="dialogEditVisible"> 
             <div class="el-dialog-div">
-                 <DetailClass :id="id" :readOnly=false @closeAddDialog="closeAddDialog"></DetailClass>
+                 <DetailCourse :id="id" :readOnly=false @closeAddDialog="closeAddDialog"></DetailCourse>
             </div> 
         </el-dialog>
 
-
-        <el-dialog
-           width="55%"
-            title="学生调班"
-            v-model="chooseClassDialogVisible"> 
-            <div class="el-dialog-div">
-                 <ChooseClass :classNumber="classNumber" :readOnly=false @closeAddDialog="closeAddDialog"></ChooseClass>
-            </div> 
-        </el-dialog>
-       
   </div>
 </template>
 
 <script>
 
-import AddClass from '@/views/class/AddClass'
-import DetailClass from '@/views/class/DetailClass'
-import ChooseClass from '@/views/class/ChooseClass'
+import AddCourse from '@/views/course/AddCourse'
+import DetailCourse from '@/views/course/DetailCourse'
 export default {
-  name: "SearchClass",
-  components:{AddClass,DetailClass,ChooseClass},
+  name:"SearchCourse",  
+  components:{AddCourse,DetailCourse},
   props:{},
   data(){
     return {
         showColumn:{
-          classId:false  
+          courseId:false  
         },
         selectRows:[],
         page:{
@@ -150,24 +131,23 @@ export default {
         dialogVisible:false,
         dialogViewVisible:false,
         dialogEditVisible:false,
-        chooseClassDialogVisible:false,
         id:null,
-        classNumber:null,
         tableData: [],
         formInline: {
-          className: null,
-          classNumber: null
+          courseNumber: null,
+          courseName: null
         },
     }
   },
   watch:{},
   computed:{},
   methods:{
+
         queryClick(){
-            this.axios.get('/ClassInfo',{
+            this.axios.get('/Course',{
             params:{
-              className: this.formInline.className,
-              classNumber: this.formInline.classNumber,
+              courseName: this.formInline.courseName,
+              courseNumber: this.formInline.courseNumber,
               size:this.page.pageSize,
               current:this.page.page
             }}).then( res =>{
@@ -197,25 +177,36 @@ export default {
         handleEdit(index,row){
             index;
             row;
-            this.id = row.classId
+            this.id = row.courseId
             this.dialogEditVisible = true;
         },
         handleView(index,row){
             index;
-            this.id = row.classId;       
+            this.id = row.courseId;       
             this.dialogViewVisible = true;
         },
-        chooseClass(){
+        selectCourse(){
             if(this.selectRows.length != 1){
                 this.$message({
-                        message: '请选择一条需要操纵的班级',
-                        type: 'warning'
-                    });
-                return; 
+                    message: '请选择一门课程',
+                    type: 'warning'
+                });
+                return;
             }
-            const classInfo = this.selectRows[0];
-            this.classNumber = classInfo.classNumber;
-            this.chooseClassDialogVisible = true;
+            const courseNumber = this.selectRows[0].courseNumber;
+            const stuNumber = sessionStorage.getItem('USER_CODE');
+            this.axios.put('/Student/Course/choose',{
+              courseNumber: courseNumber,
+              stuNumber:stuNumber  
+            }).then( res => {
+                if(res){
+                  this.$message({
+                        message: '选课成功',
+                        type: 'success'
+                    });  
+                }
+            })
+
         }
 
   },
@@ -223,6 +214,6 @@ export default {
   mounted(){}
 }
 </script>
-<style  scoped>
-
+<style scoped>
+.wrapper{}
 </style>
