@@ -53,11 +53,25 @@
             </el-form-item>
 
             <el-form-item label="学生专业" prop="stuMajor">
-                <el-input v-model="form.stuMajor"></el-input>
+                <el-select v-model="form.stuMajor" class="m-2" placeholder="Select" filterable clearable>
+                        <el-option
+                        v-for="item in majorOptions"
+                        :key="item.majorNumber"
+                        :label="item.majorName"
+                        :value="item.majorNumber"
+                        />
+                    </el-select>
             </el-form-item>
 
             <el-form-item label="学生班级" prop="stuClass">
-                <el-input v-model="form.stuClass"></el-input>
+                <el-select v-model="form.stuClass" class="m-2" placeholder="Select" filterable clearable>
+                        <el-option
+                        v-for="item in classOptions"
+                        :key="item.classNumber"
+                        :label="item.className"
+                        :value="item.classNumber"
+                        />
+                    </el-select>
             </el-form-item>
 
             
@@ -70,15 +84,19 @@
             </el-form-item>
 
             <el-form-item label="学生状态" prop="status">
-                <el-radio v-model="form.status" label="0">毕业</el-radio>
-                <el-radio v-model="form.status" label="1">在校</el-radio>
-                <el-radio v-model="form.status" label="2">结业</el-radio>
-                <el-radio v-model="form.status" label="3">辍学</el-radio>
+                <el-select v-model="form.status" placeholder="学生状态">
+                    <el-option label="毕业" value="0">毕业</el-option>
+                    <el-option label="在校" value="1">在校</el-option>
+                    <el-option label="结业" value="2">结业</el-option>
+                    <el-option label="辍学" value="3">辍学</el-option>
+                </el-select>
             </el-form-item>
 
             <el-form-item label="性别" prop="stuGender">
-                <el-radio v-model="form.stuGender" label="0">女</el-radio>
-                <el-radio v-model="form.stuGender" label="1">男</el-radio>
+                <el-select v-model="form.stuGender" placeholder="性别">
+                    <el-option label="女" value="0">女</el-option>
+                    <el-option label="男" value="1">男</el-option>
+                </el-select>
             </el-form-item>
 
             <el-form-item>
@@ -106,6 +124,8 @@ export default {
   },
     data(){
     return {
+      classOptions:[],
+      majorOptions:[],
         form:{
             stuId:null,
             stuNumber:null,
@@ -213,14 +233,33 @@ methods:{
       },
       getObjData(){
          this.axios.get('/Student/'+this.id,{}).then((response) => {
-                    response
-                this.form = response.data
+                this.form = response.data;
                 this.form.status = response.data.status + '';
         })
-      }
+      },
+      queryClasses(){
+            this.axios.get('/ClassInfo',{
+            params:{
+              size:9999,
+              current:1
+            }}).then( res =>{
+                this.classOptions = res.data.records
+            })
+      },
+      queryMajor(){
+            this.axios.get('/Major',{
+            params:{
+              size:9999,
+              current:1
+            }}).then( res =>{
+                this.majorOptions = res.data.records;
+            })
+        },
 
   },
   mounted(){
+    this.queryClasses();
+    this.queryMajor();
     this.getObjData();
   }
 }

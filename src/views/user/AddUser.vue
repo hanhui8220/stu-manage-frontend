@@ -11,7 +11,7 @@
                 <el-input v-model="userForm.passWord"></el-input>
             </el-form-item>
             <el-form-item label="用户状态" prop="status">
-                <el-radio v-model="userForm.status" label="1">活动</el-radio>
+                <el-radio v-model="userForm.status" label="1">正常</el-radio>
                 <el-radio v-model="userForm.status" label="0">禁用</el-radio>
             </el-form-item>
             <el-form-item>

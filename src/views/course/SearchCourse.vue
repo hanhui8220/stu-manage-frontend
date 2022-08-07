@@ -9,6 +9,9 @@
             <el-form-item label="课程名称">
                 <el-input v-model="formInline.courseName" placeholder="课程名称"></el-input>
             </el-form-item>
+            <el-form-item label="课程类型">
+                <el-input v-model="formInline.courseType" placeholder="课程类型"></el-input>
+            </el-form-item>
 
             <el-form-item>
                 <el-button type="primary" @click="queryClick" icon="el-icon-search">查询</el-button>
@@ -46,6 +49,27 @@
             <el-table-column
             prop="courseName"
             label="课程名称"
+            width="180">
+            </el-table-column>
+
+            <el-table-column
+            prop="courseType"
+            label="课程类型"
+            width="180">
+                <template #default="scope">
+                    <span v-text="formatCourseType(scope.row.courseType)"></span>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+            prop="courseTotal"
+            label="开放人数"
+            width="180">
+            </el-table-column>
+
+            <el-table-column
+            prop="courseRemain"
+            label="剩余可选"
             width="180">
             </el-table-column>
 
@@ -135,7 +159,8 @@ export default {
         tableData: [],
         formInline: {
           courseNumber: null,
-          courseName: null
+          courseName: null,
+          courseType:null
         },
     }
   },
@@ -148,6 +173,7 @@ export default {
             params:{
               courseName: this.formInline.courseName,
               courseNumber: this.formInline.courseNumber,
+              courseType:this.formInline.courseType,
               size:this.page.pageSize,
               current:this.page.page
             }}).then( res =>{
@@ -184,6 +210,14 @@ export default {
             index;
             this.id = row.courseId;       
             this.dialogViewVisible = true;
+        },
+        formatCourseType(value){
+            if(value == "0"){
+                return "必修";
+            }else if(value == "1"){
+                return "选修";
+            }
+            return "";
         },
         selectCourse(){
             if(this.selectRows.length != 1){

@@ -10,7 +10,7 @@
                   :xl="{span: 6, offset: 9}">
             <el-card class="box-card">
               <i class="el-icon-eleme icon-size"></i><br>
-              <p class="logo-family">Student-Admin-Login</p><br>
+              <p class="logo-family">学生信息管理系统</p><br>
               <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
                 <el-form-item prop="usercode">
                   <el-input type="text" v-model="ruleForm.usercode" autocomplete="off" prefix-icon="el-icon-user"></el-input>
@@ -88,7 +88,8 @@ export default {
                 message: '恭喜你，登录成功',
                 type: 'success'
               });
-              sessionStorage.setItem('USER_CODE', response.data.usercode); // 设置本地存储信息
+              sessionStorage.setItem('USER_CODE', response.data.userCode); // 设置本地存储信息
+              sessionStorage.setItem('USER_NAME', response.data.userName); 
               this.$router.push('/main');
             }
           }).catch((error) => {

@@ -8,19 +8,23 @@
         </el-col>
         <el-col :span="12">
           <div :style="divStyle">
+            
+
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
+                <!-- 头像 -->
               <el-avatar size="small" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item class="clearfix">
-                    <span>管理员：王二</span>
+                    <!-- <span>管理员：王二</span> -->
+                    <span>{{userData.userName}}</span>
                   </el-dropdown-item>
-                  <el-dropdown-item class="clearfix">
+                  <!-- <el-dropdown-item class="clearfix">
                     系统通知
                     <el-badge class="mark" :value="12" />
-                  </el-dropdown-item>
+                  </el-dropdown-item> -->
                   <el-dropdown-item class="clearfix" @click="userLogout()">
                     退出登录
                   </el-dropdown-item>
@@ -58,6 +62,12 @@
             <template #title><i class="el-icon-menu menu-icon"></i><span>课程及专业管理</span></template>
             <el-menu-item index="/SearchCourse">课程管理</el-menu-item>
             <el-menu-item index="/SearchMajor">专业管理</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="/ScoreManagement">
+            <template #title><i class="el-icon-menu menu-icon"></i><span>学生成绩管理</span></template>
+            <el-menu-item index="/SearchScore">学生成绩管理</el-menu-item>
+            <el-menu-item index="/PersonalScore">个人成绩查看</el-menu-item>
           </el-submenu>
 
 
@@ -101,6 +111,10 @@ export default {
         marginTop: '18px',
         marginBottom: '18px',
         float: 'right',
+      },
+      userData:{
+        userCode:null,
+        userName:null
       }
     }
   },
@@ -119,6 +133,14 @@ export default {
          console.log(error)
          this.$message.error('用户名或密码错误');
       })
+    }
+  },
+  mounted(){
+    const userName =  sessionStorage.getItem('USER_NAME'); 
+    const userCode =  sessionStorage.getItem('USER_CODE'); 
+    this.userData = {
+      userCode:userCode,
+      userName:userName
     }
   }
 }

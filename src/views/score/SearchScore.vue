@@ -1,21 +1,21 @@
 <template>
-  <div>
-        <!-- 搜索区 -->
+  <div class="wrapper">
+
+                <!-- 搜索区 -->
          <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="姓名">
-                <el-input v-model="formInline.stuName" placeholder="姓名"></el-input>
+            <el-form-item label="课程编号">
+                <el-input v-model="formInline.courseNumber" placeholder="课程编号"></el-input>
             </el-form-item>
-            <el-form-item label="学号">
-                <el-input v-model="formInline.stuNumber" placeholder="学号"></el-input>
+            <el-form-item label="课程名称">
+                <el-input v-model="formInline.courseName" placeholder="课程名称"></el-input>
             </el-form-item>
 
-            <el-form-item label="学生状态">
-                <el-select v-model="formInline.status" placeholder="学生状态">
-                    <el-option label="毕业" value="0">毕业</el-option>
-                    <el-option label="在校" value="1">在校</el-option>
-                    <el-option label="结业" value="2">结业</el-option>
-                    <el-option label="辍学" value="3">辍学</el-option>
-                </el-select>
+             <el-form-item label="学生学号">
+                <el-input v-model="formInline.stuNumber" placeholder="学生学号"></el-input>
+            </el-form-item>
+
+             <el-form-item label="学生姓名">
+                <el-input v-model="formInline.stuName" placeholder="学生姓名"></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -24,15 +24,14 @@
         </el-form>   
 
         <el-row>
-            <el-button type="primary" icon="el-icon-edit" @click="dialogVisible = true">新增</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="addScore">成绩录入</el-button>
+            <el-button type="primary" icon="el-icon-delete"  @click="deleteByIds">删除</el-button>
         </el-row>
-
-
 
         <!-- 数据区 -->
         <el-table
             @selection-change="selectionChange"
-            ref = "stuGrid"
+            ref = "classGrid"
             :data="tableData"
             stripe
             style="width: 100%">
@@ -40,13 +39,13 @@
             <el-table-column type="selection" width="55" />
 
             <el-table-column
-            v-if="showColumn.stuId"
-            prop="stuId"
+            v-if="showColumn.classId"
+            prop="classId"
             label="主键ID"
             width="180">
             </el-table-column>
 
-            <el-table-column
+             <el-table-column
             prop="stuName"
             label="姓名"
             width="180">
@@ -58,61 +57,64 @@
             width="180">
             </el-table-column>
 
-            <el-table-column
-            prop="stuIdentityCard"
-            label="身份证号码"
-            width="180">
-            </el-table-column>
-
-            <el-table-column
+            <!-- <el-table-column
             prop="stuGender"
             label="性别"
             width="180">
                 <template #default="scope">
                     <span v-text="formatGender(scope.row.stuGender)"></span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column
-            prop="stuPhoneNumber"
-            label="手机号码"
+            prop="courseName"
+            label="课程"
             width="180">
             </el-table-column>
 
             <el-table-column
+            prop="score"
+            label="分数"
+            width="180">
+            </el-table-column>
+
+            <el-table-column
+            prop="year"
+            label="学年"
+            width="180">
+            </el-table-column>
+
+            <el-table-column
+            prop="term"
+            label="学期"
+            width="180">
+            </el-table-column>
+
+            <!-- <el-table-column
             prop="stuGrade"
             label="学生年级"
             width="180">
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column
             prop="stuFaculty"
-            label="学生院系"
+            label="院系"
             width="180">
             </el-table-column>
 
             <el-table-column
             prop="stuMajor"
-            label="学生专业"
+            label="专业"
             width="180">
             </el-table-column>
 
-            <el-table-column
+            <!-- <el-table-column
             prop="stuClass"
             label="学生班级"
             width="180">
-            </el-table-column>
+            </el-table-column> -->
 
-            <el-table-column
-            prop="status"
-            label="账户状态"
-            width="180">
-                <template #default="scope">
-                    <span v-text="formatStatus(scope.row.status)"></span>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="操作" fixed="right" width="180">
+             <el-table-column label="操作" fixed="right" width="180">
                 <template #default="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
                     >编辑</el-button
@@ -126,9 +128,9 @@
                 </template>
             </el-table-column>
 
-        </el-table>
+    </el-table>
 
-    <!-- 分页条 -->
+                <!-- 分页条 -->
     <el-pagination
         layout="prev, pager, next"
         @size-change="handleSizeChange"
@@ -136,18 +138,16 @@
         :current-page="page.page"
         :page-size="page.pageSize"
         :total="page.total"
-        hide-on-single-page="true"
         >
     </el-pagination>
 
-
-        <el-dialog
+            <el-dialog
             width="70%"
-            title="新增学生"
+            title="成绩录入"
             v-model="dialogVisible"
             :before-close="handleClose">
             <div class="el-dialog-div">
-                <AddStu @closeAddDialog="closeAddDialog"></AddStu>
+                <AddScore @closeAddDialog="closeAddDialog"></AddScore>
             </div>
 
             
@@ -155,42 +155,42 @@
 
         <el-dialog
             width="70%"
-            title="查看学生"
+            title="成绩查看"
             v-model="dialogViewVisible"> 
             <div class="el-dialog-div">
-                <DetailStu :id="id" :readOnly=true @closeAddDialog="closeAddDialog"></DetailStu>
+                <DetailScore :id="id" :readOnly=true @closeAddDialog="closeAddDialog"></DetailScore>
             </div> 
         </el-dialog>
 
 
         <el-dialog
             width="70%"
-            title="修改学生"
+            title="成绩修改"
             v-model="dialogEditVisible"> 
             <div class="el-dialog-div">
-                 <DetailStu :id="id" :readOnly=false @closeAddDialog="closeAddDialog"></DetailStu>
+                 <DetailScore :id="id" :readOnly=false @closeAddDialog="closeAddDialog"></DetailScore>
             </div> 
         </el-dialog>
 
-
-    </div>
+  </div>
 </template>
 
 <script>
-import AddStu from '@/views/student/AddStu'
-import DetailStu from '@/views/student/DetailStu'
+import AddScore from '@/views/score/AddScore'
+import DetailScore from '@/views/score/DetailScore'
 export default {
-    name: "SearchStu",
-    components:{AddStu,DetailStu},
-    data() {
-      return {
+  name:"SearchScore",  
+  components:{AddScore,DetailScore},
+  props:{},
+  data(){
+    return {
         showColumn:{
-          stuId:false  
+          classId:false  
         },
         selectRows:[],
         page:{
             page:1,
-            pageSize:1,
+            pageSize:2,
             total:0,
             pageSizes:[5, 10, 20, 50, 100]
         },
@@ -200,20 +200,23 @@ export default {
         id:null,
         tableData: [],
         formInline: {
-          stuName: null,
+          courseNumber: null,
           stuNumber: null,
-          status:"1"
-        }
-        
-      }
-    },
-    methods:{
-        queryClick(){
-            this.axios.get('/Student',{
+          courseName:null,
+          stuName:null
+        },
+    }
+  },
+  watch:{},
+  computed:{},
+  methods:{
+    queryClick(){
+            this.axios.get('/Score',{
             params:{
               stuNumber: this.formInline.stuNumber,
+              courseNumber: this.formInline.courseNumber,
+              courseName: this.formInline.courseName,
               stuName: this.formInline.stuName,
-              status:this.formInline.status,
               size:this.page.pageSize,
               current:this.page.page
             }}).then( res =>{
@@ -231,7 +234,9 @@ export default {
         },
         handleClose(done) {
             done();
-
+        },
+        addScore(){
+            this.dialogVisible = true;
         },
         closeAddDialog(){
             this.dialogVisible = false;
@@ -244,12 +249,12 @@ export default {
         handleEdit(index,row){
             index;
             row;
-            this.id = row.stuId
+            this.id = row.id
             this.dialogEditVisible = true;
         },
         handleView(index,row){
             index;
-            this.id = row.stuId;       
+            this.id = row.id;       
             this.dialogViewVisible = true;
         },
         formatStatus(status){
@@ -271,13 +276,33 @@ export default {
                 return "男";
             }
             return "";
-        }
-
-        
-    }
+        },
+        deleteByIds(){
+            if(this.selectRows.length == 0){
+                this.$message({
+                        message: '请勾选需要删除的学生成绩',
+                        type: 'warning'
+                    });
+                return;    
+            }
+            const ids = this.selectRows.map(row => row.id)
+            this.axios.delete('/Score',{
+              data:ids
+            }).then( res =>{
+                if(res.data == ids.length){
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                }
+                this.queryClick();
+            })
+        },
+  },
+  created(){},
+  mounted(){}
 }
 </script>
-
-<style>
-
+<style  scoped>
+.wrapper{}
 </style>
