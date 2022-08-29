@@ -90,6 +90,7 @@ export default {
               });
               sessionStorage.setItem('USER_CODE', response.data.userCode); // 设置本地存储信息
               sessionStorage.setItem('USER_NAME', response.data.userName); 
+              sessionStorage.setItem('USER_ROLE', response.data.userRole); 
               this.$router.push('/main');
             }
           }).catch((error) => {

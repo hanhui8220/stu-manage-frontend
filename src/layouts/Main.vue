@@ -46,28 +46,28 @@
                  @close="handleClose">
 
 
-          <el-submenu index="/InfoManagement">
+          <el-submenu index="/InfoManagement" v-if="roleNum >= 5">
             <template #title><i class="el-icon-menu menu-icon"></i><span>系统管理</span></template>
-            <el-menu-item index="/SearchUser">用户信息管理</el-menu-item>
-            <el-menu-item index="/SearchTeach">教师信息管理</el-menu-item>
-            <el-menu-item index="/SearchStu">学生信息管理</el-menu-item>
+            <el-menu-item index="/SearchUser" v-if="roleNum > 5">用户信息管理</el-menu-item>
+            <el-menu-item index="/SearchTeach" v-if="roleNum > 5">教师信息管理</el-menu-item>
+            <el-menu-item index="/SearchStu" v-if="roleNum >= 5">学生信息管理</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="/ClassManagement">
-            <template #title><i class="el-icon-menu menu-icon"></i><span>班级管理</span></template>
-            <el-menu-item index="/SearchClass">班级信息管理</el-menu-item>
+          <el-submenu index="/ClassManagement" v-if="roleNum >= 5">
+            <template #title><i class="el-icon-menu menu-icon" v-if="roleNum >= 5"></i><span>班级管理</span></template>
+            <el-menu-item index="/SearchClass" v-if="roleNum >= 5">班级信息管理</el-menu-item>
           </el-submenu>
           
           <el-submenu index="/CourseManagement">
-            <template #title><i class="el-icon-menu menu-icon"></i><span>课程及专业管理</span></template>
-            <el-menu-item index="/SearchCourse">课程管理</el-menu-item>
-            <el-menu-item index="/SearchMajor">专业管理</el-menu-item>
+            <template #title><i class="el-icon-menu menu-icon" v-if="roleNum >= 5"></i><span>课程及专业管理</span></template>
+            <el-menu-item index="/SearchCourse" v-if="roleNum >= 3">课程管理</el-menu-item>
+            <el-menu-item index="/SearchMajor" v-if="roleNum >= 5">专业管理</el-menu-item>
           </el-submenu>
 
           <el-submenu index="/ScoreManagement">
             <template #title><i class="el-icon-menu menu-icon"></i><span>学生成绩管理</span></template>
-            <el-menu-item index="/SearchScore">学生成绩管理</el-menu-item>
-            <el-menu-item index="/PersonalScore">个人成绩查看</el-menu-item>
+            <el-menu-item index="/SearchScore" v-if="roleNum >= 5">学生成绩管理</el-menu-item>
+            <el-menu-item index="/PersonalScore" v-if="roleNum == 3">个人成绩查看</el-menu-item>
           </el-submenu>
 
 
@@ -114,8 +114,10 @@ export default {
       },
       userData:{
         userCode:null,
-        userName:null
-      }
+        userName:null,
+        userRole:null
+      },
+      roleNum:null
     }
   },
   methods: {
@@ -138,10 +140,21 @@ export default {
   mounted(){
     const userName =  sessionStorage.getItem('USER_NAME'); 
     const userCode =  sessionStorage.getItem('USER_CODE'); 
+    const userRole =  sessionStorage.getItem('USER_ROLE'); 
     this.userData = {
       userCode:userCode,
-      userName:userName
+      userName:userName,
+      userRole:userRole
     }
+    // role :  SYS : 1 + 2 + 3 =6  ,  TEACH : 2 + 3 = 5, STU : 3
+    if(userRole == 'SYS'){
+      this.roleNum = 6
+    }else if(userRole == 'TEACH'){
+      this.roleNum = 5
+    }else if(userRole == 'STU'){
+      this.roleNum = 3
+    }
+    console.log("role num ---->" + this.roleNum)
   }
 }
 </script>
