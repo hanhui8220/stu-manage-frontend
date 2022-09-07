@@ -33,6 +33,7 @@
             ref = "teachGrid"
             :data="tableData"
             stripe
+            max-height="400"
             style="width: 100%">
 
             <el-table-column type="selection" width="55" />
@@ -112,7 +113,7 @@
         :current-page="page.page"
         :page-size="page.pageSize"
         :total="page.total"
-        hide-on-single-page="true"
+        
         >
     </el-pagination>
 
@@ -166,7 +167,7 @@ export default {
         selectRows:[],
         page:{
             page:1,
-            pageSize:1,
+            pageSize:10,
             total:0,
             pageSizes:[5, 10, 20, 50, 100]
         },

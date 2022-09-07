@@ -33,7 +33,9 @@
             ref = "userGrid"
             :data="tableData"
             stripe
-            style="width: 100%">
+            style="width: 100%"
+            max-height="400"
+            >
 
             <el-table-column type="selection" width="55" />
 
@@ -89,7 +91,7 @@
         :current-page="page.page"
         :page-size="page.pageSize"
         :total="page.total"
-        hide-on-single-page="true"
+        
         >
     </el-pagination>
 
@@ -144,7 +146,7 @@ data() {
         selectRows:[],
         page:{
             page:1,
-            pageSize:5,
+            pageSize:10,
             total:0,
             pageSizes:[5, 10, 20, 50, 100]
         },
