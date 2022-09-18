@@ -19,8 +19,8 @@
         </el-form>  
 
         <el-row>
-            <el-button type="primary" icon="el-icon-edit" @click="dialogVisible = true">新增</el-button>
-            <el-button type="primary" icon="el-icon-edit" @click="selectCourse">选课</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="dialogVisible = true" v-if="roleNum > 3">新增</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="selectCourse" v-if="roleNum == 3">选课</el-button>
         </el-row>
 
 
@@ -163,6 +163,12 @@ export default {
           courseName: null,
           courseType:null
         },
+        userData:{
+        userCode:null,
+        userName:null,
+        userRole:null
+        },
+        roleNum:null
     }
   },
   watch:{},
@@ -239,6 +245,7 @@ export default {
                         message: '选课成功',
                         type: 'success'
                     });  
+                    this.queryClick();
                 }
             })
 
@@ -246,7 +253,25 @@ export default {
 
   },
   created(){},
-  mounted(){}
+  mounted(){
+    const userName =  sessionStorage.getItem('USER_NAME'); 
+    const userCode =  sessionStorage.getItem('USER_CODE'); 
+    const userRole =  sessionStorage.getItem('USER_ROLE'); 
+    this.userData = {
+      userCode:userCode,
+      userName:userName,
+      userRole:userRole
+    }
+    // role :  SYS : 1 + 2 + 3 =6  ,  TEACH : 2 + 3 = 5, STU : 3
+    if(userRole == 'SYS'){
+      this.roleNum = 6
+    }else if(userRole == 'TEACH'){
+      this.roleNum = 5
+    }else if(userRole == 'STU'){
+      this.roleNum = 3
+    }
+    console.log("role num ---->" + this.roleNum)
+  }
 }
 </script>
 <style scoped>

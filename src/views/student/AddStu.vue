@@ -204,13 +204,13 @@ methods:{
           if (valid) {
                 const data = this.form
                 this.axios.post('/Student',data).then((response) => {
-                    response
-                    this.$message({
+                    if(response){
+                      this.$message({
                         message: '学生信息添加成功',
                         type: 'success'
                     });
                     that.$emit("closeAddDialog");
-                
+                    }
             })
           } else {
             this.$message({

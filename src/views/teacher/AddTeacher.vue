@@ -83,13 +83,14 @@ export default {
           if (valid) {
                 const data = this.form
                 this.axios.post('/Teacher',data).then((response) => {
-                    response
-                    this.$message({
+                    if(response){
+                      this.$message({
                         message: '教师信息添加成功',
                         type: 'success'
                     });
-                    that.$emit("closeAddDialog");
-                
+                      that.$emit("closeAddDialog");
+                    }
+                    
             })
           } else {
             this.$message({

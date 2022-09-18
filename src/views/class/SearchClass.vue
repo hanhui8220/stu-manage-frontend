@@ -16,7 +16,7 @@
 
         <el-row>
             <el-button type="primary" icon="el-icon-edit" @click="dialogVisible = true">新增</el-button>
-            <el-button type="primary" icon="el-icon-edit" @click="chooseClass">学生调班</el-button>
+            <!-- <el-button type="primary" icon="el-icon-edit" @click="chooseClass">学生调班</el-button> -->
         </el-row>
 
          <!-- 数据区 -->
