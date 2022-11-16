@@ -56,6 +56,7 @@ const router = createRouter({
         {
             path: '/ScoreManagement',
             component: Main,
+            redirect: '/PersonalScore',
             meta: {
                 requireAuth: true // 进入页面前判断是否需要登陆
             },

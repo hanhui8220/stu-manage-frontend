@@ -91,7 +91,14 @@ export default {
               sessionStorage.setItem('USER_CODE', response.data.userCode); // 设置本地存储信息
               sessionStorage.setItem('USER_NAME', response.data.userName); 
               sessionStorage.setItem('USER_ROLE', response.data.userRole); 
-              this.$router.push('/main');
+              if(response.data.userRole == 'STU'){
+                this.$router.push('/PersonalScore');
+              }else if(response.data.userRole == 'TEACH'){
+                this.$router.push('/SearchStu');
+              }else{
+                this.$router.push('/main');
+              }
+              
             }
           }).catch((error) => {
             console.log(error)
